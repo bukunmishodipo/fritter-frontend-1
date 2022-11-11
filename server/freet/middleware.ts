@@ -6,11 +6,14 @@ import FreetCollection from '../freet/collection';
  * Checks if a freet with freetId is req.params exists
  */
 const isFreetExists = async (req: Request, res: Response, next: NextFunction) => {
-  const validFormat = Types.ObjectId.isValid(req.params.freetId);
-  const freet = validFormat ? await FreetCollection.findOne(req.params.freetId) : '';
+  const id = req.params.freetId ? req.params.freetId : req.query.referenceId as string;
+  const validFormat = Types.ObjectId.isValid(id);
+  const freet = validFormat ? await FreetCollection.findOne(id) : '';
   if (!freet) {
     res.status(404).json({
-      error: `Freet with freet ID ${req.params.freetId} does not exist.`
+      error: {
+        freetNotFound: `Freet with freet ID ${id} does not exist.`
+      }
     });
     return;
   }

@@ -83,7 +83,7 @@ Every component takes advantage of an [HTML-based template syntax](https://v2.vu
 ```
 <section v-if="$store.state.username">
   <header>
-    <h2>Welcome @{{ $store.state.username }}</h2>
+    <h2>Welcome back @{{ $store.state.username }}</h2>
   </header>
   <CreateFreetForm />
 </section>

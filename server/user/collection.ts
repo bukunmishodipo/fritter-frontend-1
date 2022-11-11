@@ -67,14 +67,14 @@ class UserCollection {
    * @param {Object} userDetails - An object with the user's updated credentials
    * @return {Promise<HydratedDocument<User>>} - The updated user
    */
-  static async updateOne(userId: Types.ObjectId | string, userDetails: {password?: string; username?: string}): Promise<HydratedDocument<User>> {
+  static async updateOne(userId: Types.ObjectId | string, userDetails: any): Promise<HydratedDocument<User>> {
     const user = await UserModel.findOne({_id: userId});
     if (userDetails.password) {
-      user.password = userDetails.password;
+      user.password = userDetails.password as string;
     }
 
     if (userDetails.username) {
-      user.username = userDetails.username;
+      user.username = userDetails.username as string;
     }
 
     await user.save();

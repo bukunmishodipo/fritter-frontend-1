@@ -78,6 +78,11 @@ section {
   flex-direction: column;
 }
 
+main {
+  background-color: #D4A5A5;
+  font-family: 'Verdana';
+}
+
 header, header > * {
     display: flex;
     justify-content: space-between;

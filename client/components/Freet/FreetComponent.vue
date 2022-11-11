@@ -9,7 +9,24 @@
       <h3 class="author">
         @{{ freet.author }}
       </h3>
-      <div
+    </header>
+    <textarea
+      v-if="editing"
+      class="content"
+      :value="draft"
+      @input="draft = $event.target.value"
+    />
+    <p
+      v-else
+      class="content"
+    >
+      {{ freet.content }}
+    </p>
+    <p class="info">
+      Posted at {{ freet.dateModified }}
+      <i v-if="freet.edited">(edited)</i>
+    </p>
+    <div
         v-if="$store.state.username === freet.author"
         class="actions"
       >
@@ -34,24 +51,22 @@
         <button @click="deleteFreet">
           🗑️ Delete
         </button>
-      </div>
-    </header>
-    <textarea
-      v-if="editing"
-      class="content"
-      :value="draft"
-      @input="draft = $event.target.value"
-    />
-    <p
-      v-else
-      class="content"
-    >
-      {{ freet.content }}
-    </p>
-    <p class="info">
-      Posted at {{ freet.dateModified }}
-      <i v-if="freet.edited">(edited)</i>
-    </p>
+    </div>
+  <div>
+      <button 
+        v-if="isLiked"
+        @click="addLike">
+          ❤️ Like
+      </button>
+      <button 
+        v-else
+        @click="removeLike">
+           🤍 Unlike
+      </button>
+      <button @click="addComment">
+            💬 Comment
+      </button>
+  </div>
     <section class="alerts">
       <article
         v-for="(status, alert, index) in alerts"
@@ -132,7 +147,7 @@ export default {
       };
       this.request(params);
     },
-    async request(params) {
+    async request(params, url = `/api/freets/${this.freet._id}`) {
       /**
        * Submits a request to the freet's endpoint
        * @param params - Options for the request
@@ -147,7 +162,7 @@ export default {
       }
 
       try {
-        const r = await fetch(`/api/freets/${this.freet._id}`, options);
+        const r = await fetch(url, options);
         if (!r.ok) {
           const res = await r.json();
           throw new Error(res.error);
@@ -171,5 +186,20 @@ export default {
     border: 1px solid #111;
     padding: 20px;
     position: relative;
+    background-color: #FFF2F5;
+}
+
+.info{
+  font-size: 0.75em;
+  font-style: italic;
+}
+
+button {
+  margin: 1%;
+}
+
+.actions{
+  width: 500px;
+  text-align:
 }
 </style>

@@ -7,6 +7,7 @@ import NotFound from './NotFound.vue';
 
 Vue.use(VueRouter);
 
+//TODO: add route to new pages here
 const routes = [
   {path: '/', name: 'Home', component: FreetsPage},
   {path: '/account', name: 'Account', component: AccountPage},
